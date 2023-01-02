@@ -6,6 +6,22 @@ import time
 import math
 from urllib.request import urlopen
 
+colors = dict(
+    green       = '\033[32m',
+    yellow      = '\033[33m',
+    blue        = '\033[34m',
+    magenta     = '\033[35m',  
+    cyan        = '\033[36m', 
+    red         = '\033[91m',  
+    black       = '\033[0m', 
+)
+
+idToColor = {
+    1: 'green',
+    2: 'magenta',
+    3: 'cyan',
+}
+
 logging.basicConfig(
     level=logging.DEBUG,
     datefmt='%Y-%m-%d %H:%M:%S',
@@ -23,25 +39,31 @@ def getWebpage(url='https://download.bls.gov/pub/time.series/cu/cu.data.0.Curren
 
 def long_running_func(_id=0, task_type=1, n=N):
 
+    def add_color(msg):
+        colorName = idToColor.get(_id, 'black')
+        color = colors.get(colorName,'')
+        black = colors['black']
+        return f'{color}{msg}{black}'
+
     if task_type == 1:
-        logging.info(f'Task {_id}: started I/O-bound...' )
+        logging.info(add_color(f'Task {_id}: started I/O-bound...' ))
         _ = getWebpage()
 
     if task_type == 2:
-        logging.info(f'Task {_id}: started CPU-bound...' )
+        logging.info(add_color(f'Task {_id}: started CPU-bound...' ))
         compute(n)
 
     if task_type == 3:
-        logging.info(f'Task {_id}: started Sleep...' )
+        logging.info(add_color(f'Task {_id}: started Sleep...' ))
         time.sleep(3)
     
-    logging.info(f'Task {_id}: finished' )
+    logging.info(add_color(f'Task {_id}: finished' ))
         
 if __name__ == '__main__':
     print('\n')
     
     MODES = {
-        1:'Sequentional', 
+        1:'Sequential', 
         2:'Multithreading', 
         3:'Multithreading with ThreadPoolExecuter', 
         4:'Multiprocessing',
@@ -71,7 +93,7 @@ if __name__ == '__main__':
 
     startTime = time.time()
 
-    # Sequentional
+    # Sequential
     if mode == 1:
         for arg in args:
             long_running_func(*arg)
