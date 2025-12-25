@@ -65,12 +65,23 @@ public class Program
     // 3: Run parallell Async over a collection
     public static async Task RunAsyncCollection()
     {
-        List<int> urlIds = Enumerable.Range(1, 10).ToList();
+        List<int> urlIds = Enumerable.Range(1, 9).ToList();
         await Parallel.ForEachAsync(urlIds, async (urlId, cancelationToken) =>
         {
             await IoBoundTask(urlId, Reset);
         });
         tasksDone = true;
+    }
+
+    // 4: Run parallel CPU-bound operations over a collection
+    public static void RunMultithreadingCollection()
+    {
+        List<int> jobIds = Enumerable.Range(1, 9).ToList();
+        Parallel.ForEach(jobIds, jobId =>
+        {
+            CpuBoundTask(jobId, Reset);
+        });
+        tasksDone = true;        
     }
 
     // flag
@@ -101,7 +112,7 @@ public class Program
             Console.WriteLine($"Press any key to exit\n{Reset}");
             Console.WriteLine("♥: Main's heartbeat\n");
 
-            // Run tasks concurrently
+            // Run tasks
             if (keyPress.Key == ConsoleKey.D1) 
             {
                 // 1:
@@ -117,13 +128,19 @@ public class Program
                 // 3: 
                 var task = RunAsyncCollection();
             }
+            else if (keyPress.Key == ConsoleKey.D4)
+            {
+                // 4: 
+                RunMultithreadingCollection();
+            }            
             else
             {
                 continue;
             }
 
             // This heartbeat shows up in the middle of the tasks
-            // to show that the main thread is NOT blocked 
+            // when the main thread is NOT blocked (modes 1, 2, and 3)
+            // bur nor when it's block (mode 4)
             while(!tasksDone)
             {
                 Console.Write("♥");
