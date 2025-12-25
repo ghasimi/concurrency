@@ -5,7 +5,7 @@ Exploring concurrent programming.
 
 ### I. Multithreading and Multiprocessing
 
-`sample_thread.py` allows testing _multithreading_ and _multiprocessing_ for different tasks, including I/O-bound and CPU-bound. 
+`py/sample_thread.py` allows testing _multithreading_ and _multiprocessing_ for different tasks, including I/O-bound and CPU-bound. 
 
 #### Example: CPU-Bound Tasks
 
@@ -13,19 +13,18 @@ The following tests demonstrates that for CPU-bound tasks in Python, _multithrea
 
 1. CPU-Bound, Sequential: ~15s (benchmark)
 
-![CPU-bound, Sequential](cpu-sequential.png)
+![CPU-bound, Sequential](assets/py-cpu-sequential.png)
 
 2. CPU-Bound, Multithreading: ~15s (no gain) 
 
-![CPU-bound, Multithreading](cpu-multithreading.png)
+![CPU-bound, Multithreading](assets/py-cpu-multithreading.png)
 
 3. CPU-Bound, Multiprocessing: ~5s (huge gain) 
 
-![CPU-bound, Multiprocessing](cpu-multiprocessing.png)
+![CPU-bound, Multiprocessing](assets/py-cpu-multiprocessing.png)
 
 ### II. Asynchronous I/O
 
-`sample_async.py` leverages Python's [asyncio](https://docs.python.org/3/library/asyncio.html).
+`py/sample_async.py` leverages Python's [asyncio](https://docs.python.org/3/library/asyncio.html).
 
-<img alt="Async I/O" src="sample_async.png" width="500" />
-
+<img alt="Async I/O" src="assets/py-async.png" width="500" /> 
