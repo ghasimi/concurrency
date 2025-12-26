@@ -60,6 +60,7 @@ int run_synchronous()
 {
     io_task(1, color::m);
     cpu_task(3, color::g);
+    global_tasks_done = true;
     return 0;
 }
 
@@ -74,20 +75,61 @@ int run_async()
     return 0;
 }
 
+int run_thread()
+{
+    std::thread t1(cpu_task, 3, color::g);
+    sleep_ms(500);
+    std::thread t2(cpu_task, 4, color::r);
+    t1.join();
+    t2.join();
+    global_tasks_done = true;
+    return 0;
+}
+
 int main()
 {
     println("\nC++ Concurrency Demo Started");
     println("----------------------------");
+    println("Enter a demo number:");
+    println("[1] Synchronous");
+    println("[2] Multithreading via std::async");
+    println("[3] Multithreading via std::thread");
+    int mode;
+    std::cin >> mode;
+
+    if (!(mode == 1 || mode == 2 || mode == 3))
+    {
+        println("Not recognized");
+        return 0;
+    } 
+
+    println("{}{} selected{}", color::y, mode, color::x);
+
     println("Tasks 1 & 2: I/O-bound");
     println("Tasks 3 & 4: CPU-bound");
     println("♥: Main's heartbeat");
+    
+    std::future<int> future_result;
 
-    println("\nSync:");
-    run_synchronous();
-        
-    println("\n\nAsync:");
-    std::future<int> res = std::async(std::launch::async, run_async);
-
+    switch (mode)
+    {
+        case 1:
+            println("\nSynchronous:");
+            run_synchronous();
+            break;
+        case 2:
+            println("\nMultithreading via std::async:");
+            future_result = std::async(std::launch::async, run_async);
+            break;
+        case 3:
+            println("\nMultithreading via std::thread:");
+            run_thread();
+            break;
+        default:
+            global_tasks_done = true;
+            break;
+    }
+         
     do
     {
         sleep_ms(500);
