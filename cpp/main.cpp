@@ -67,7 +67,9 @@ int run_synchronous()
 int run_async()
 {
     // std::async(policy, function, arguments...)
+    // std::launch::async policy foreces the task to run on a new thread
     std::future<int> res1 = std::async(std::launch::async, io_task, 1, color::m);
+    sleep_ms(800); // to better visualize concurrency
     std::future<int> res2 = std::async(std::launch::async, io_task, 2, color::c);
     res1.get();
     res2.get();
