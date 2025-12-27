@@ -5,6 +5,7 @@ Sample codes demo concurrency via async, multithreading and multiprocessing meth
 
 * `py`: Python
 * `cs`: C# / .NET
+* `cpp`: C++
 
 ## Concurrency in Python
 
@@ -54,3 +55,19 @@ The following tests demonstrates that for CPU-bound tasks in Python, _multithrea
 4. CPU-bound operations over a collection
 
 ![CPU-bound operations over a collection](assets/cs-cpu-collection.png)
+
+## Concurrency in C++
+
+`/cpp/main.cpp` demos concurrency in C++, with the following options. The task IDs, colors, and heartbeat (♥) are similar to the C# demo.
+
+1. Synchronous
+
+![C++ Synchronous](assets/cpp_sync.png)
+
+2. Multithreading via `std::async`
+
+![C++ async](assets/cpp_async.png)
+
+3. Multithreading via `std::thread`
+
+![C++ thread](assets/cpp_thread.png)
