@@ -3,9 +3,6 @@
 #include <chrono>
 #include <string>
 #include <future>
-#include <fmt/core.h>
-
-using namespace fmt;
 
 namespace color {
     constexpr const char* x = "\033[0m";    // reset
@@ -90,41 +87,41 @@ int run_thread()
 
 int main()
 {
-    println("\nC++ Concurrency Demo Started");
-    println("----------------------------");
-    println("Enter a demo number:");
-    println("[1] Synchronous");
-    println("[2] Multithreading via std::async");
-    println("[3] Multithreading via std::thread");
+    std::cout << "\nC++ Concurrency Demo Started\n";
+    std::cout << "----------------------------\n";
+    std::cout << "Enter a demo number:\n";
+    std::cout << "[1] Synchronous\n";
+    std::cout << "[2] Multithreading via std::async\n";
+    std::cout << "[3] Multithreading via std::thread\n";
     int mode;
     std::cin >> mode;
 
     if (!(mode == 1 || mode == 2 || mode == 3))
     {
-        println("Not recognized");
+        std::cout << "Not recognized\n";
         return 0;
     } 
 
-    println("{}{} selected{}", color::y, mode, color::x);
+    std::cout << color::y << mode << " selected" << color::x << "\n";
 
-    println("Tasks 1 & 2: I/O-bound");
-    println("Tasks 3 & 4: CPU-bound");
-    println("♥: Main's heartbeat");
+    std::cout << "Tasks 1 & 2: I/O-bound\n";
+    std::cout << "Tasks 3 & 4: CPU-bound\n";
+    std::cout << "♥: Main's heartbeat\n";
     
     std::future<int> future_result;
 
     switch (mode)
     {
         case 1:
-            println("\nSynchronous:");
+            std::cout << "\nSynchronous:\n";
             run_synchronous();
             break;
         case 2:
-            println("\nMultithreading via std::async:");
+            std::cout << "\nMultithreading via std::async:\n";
             future_result = std::async(std::launch::async, run_async);
             break;
         case 3:
-            println("\nMultithreading via std::thread:");
+            std::cout << "\nMultithreading via std::thread:\n";
             run_thread();
             break;
         default:
@@ -138,6 +135,6 @@ int main()
         std::cout << "♥" << std::flush;        
     } while (!global_tasks_done);
 
-    println("\n\nFinished\n");
+    std::cout << "\n\nFinished\n\n";
     return 0;
 }
