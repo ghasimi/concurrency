@@ -53,13 +53,19 @@ namespace tasks
 
     int run_async(bool& tasks_done)
     {
-        // std::async(policy, function, arguments...)
-        // std::launch::async policy foreces the task to run on a new thread
-        std::future<int> res1 = std::async(std::launch::async, tasks::io_task, 1, color::m);
-        utils::sleep_ms(800); // to better visualize concurrency
-        std::future<int> res2 = std::async(std::launch::async, tasks::io_task, 2, color::c);
-        res1.get();
-        res2.get();
+        // Wrapper to run two async tasks
+        std::future<int> result = std::async(
+            std::launch::async, 
+            [](){
+                // std::async(policy, function, arguments...)
+                // std::launch::async policy foreces the task to run on a new thread                
+                std::future<int> res1 = std::async(std::launch::async, tasks::io_task, 1, color::m);
+                utils::sleep_ms(800); // to better visualize concurrency
+                std::future<int> res2 = std::async(std::launch::async, tasks::io_task, 2, color::c);
+                res1.get();
+                res2.get();
+                return 0;
+            });            
         tasks_done = true;
         return 0;
     }

@@ -38,7 +38,7 @@ int main()
             break;
         case 2:
             std::cout << "\nMultithreading via std::async:\n";
-            future_result = std::async(std::launch::async, tasks::run_async, std::ref(global_tasks_done));
+            tasks::run_async(global_tasks_done);
             break;
         case 3:
             std::cout << "\nMultithreading via std::thread:\n";
