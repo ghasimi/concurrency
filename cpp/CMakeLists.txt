@@ -6,5 +6,6 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(main src/main.cpp)
+add_executable(thread_safe src/thread_safe.cpp)
 
 target_include_directories(main PRIVATE include)
