@@ -71,3 +71,18 @@ The following tests demonstrates that for CPU-bound tasks in Python, _multithrea
 3. Multithreading via `std::thread`
 
 ![C++ thread](assets/cpp_thread.png)
+
+
+### Thread-Safe in C++
+
+`thread_safe.cpp` demos and benchmarks two common thread-safe methods in C++:
+
+1. **With lock**: Using `mutex` which, at the expense of higher overhead, ensures that only one thread can access a section of the code at a time.
+
+2. **Lock-free**: Using `atomic` which is generally faster, at the expense of higher complexity and being applicable to a limited set of data types. Its magic is related to hardware-level CPU instructions.
+
+Also, the lock-free version includes cache alignment that avoids "False Sharing", which is a performance-degrading issue if independent variables reside on the same CPU cache line.
+
+The benchmarking result favors the `lock-free` method in this particular test, as expected:
+
+![C++ thread-safe benchmarking](assets/cpp_thread_safe.png)
